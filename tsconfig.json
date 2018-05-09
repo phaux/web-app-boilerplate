@@ -2,10 +2,11 @@
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
+    "lib": ["dom", "esnext"],
     "noEmit": true,
     "strict": true
   },
   "include": [
-    "www/**/*"
+    "scripts/**/*"
   ]
 }

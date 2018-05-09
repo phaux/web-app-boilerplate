@@ -1,0 +1,15 @@
+:root {
+  --gray-1: #333;
+  --gray-2: #7f7f7f;
+  --gray-3: #b2b2b2;
+  --gray-4: #d6d6d6;
+  --gray-5: #e2e2e2;
+  --gray-6: #ececec;
+  --gray-7: #efefef;
+  --gray-8: #fff;
+  --action-1: #1768a6;
+  --status-info: #7ab0db;
+  --status-ok: #1d884f;
+  --status-warn: #f3c835;
+  --status-error: #db4f60;
+}

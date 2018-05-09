@@ -1,17 +1,15 @@
 {
-  "name": "jsapp",
-  "version": "1.0.0",
-  "description": "",
-  "author": "phaux <phaux4@gmail.com>",
+  "name": "app",
+  "version": "0.0.0",
   "license": "ISC",
   "scripts": {
-    "start": "serve www",
-    "test": "htmlhint www && stylelint \"www/**/*.css\" && eslint www && tsc -p ."
+    "start": "es-serve -i -e js -m node_modules -r",
+    "test": "htmlhint && stylelint \"styles/**/*.css\" && eslint scripts && tsc -p ."
   },
   "devDependencies": {
+    "es-serve": "^0.4.0",
     "eslint": "^4.16.0",
     "htmlhint": "^0.9.13",
-    "serve": "^6.4.9",
     "stylelint": "^8.4.0",
     "typescript": "^2.6.2"
   },
