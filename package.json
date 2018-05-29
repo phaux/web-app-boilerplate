@@ -3,18 +3,21 @@
   "version": "0.0.0",
   "license": "ISC",
   "scripts": {
-    "start": "es-serve -i -e js -m node_modules -r",
+    "start": "es-serve --index-fallback --rewrite-imports",
     "test": "htmlhint && stylelint \"styles/**/*.css\" && eslint scripts && tsc -p ."
   },
   "devDependencies": {
-    "es-serve": "^0.4.0",
+    "es-serve": "^0.5.0",
     "eslint": "^4.16.0",
     "htmlhint": "^0.9.13",
     "stylelint": "^8.4.0",
     "typescript": "^2.6.2"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "systemjs": "^0.21.3",
-    "systemjs-plugin-babel": "0.0.25"
+    "systemjs-plugin-babel": "0.0.25",
+    "url-polyfill": "^1.0.13",
+    "whatwg-fetch": "^2.0.4"
   }
 }

@@ -5,9 +5,13 @@
     <meta charset=utf-8>
     <meta name=viewport content="width=device-width, initial-scale=1.0">
     <base href="/">
-    <script type=module src=scripts/main.js></script>
+    <script nomodule src=node_modules/babel-polyfill/dist/polyfill.js></script>
+    <script nomodule src=node_modules/url-polyfill/url-polyfill.js></script>
+    <script nomodule src=node_modules/whatwg-fetch/fetch.js></script>
     <script nomodule src=node_modules/systemjs/dist/system.js></script>
     <script nomodule src=systemjs.config.js></script>
+    <script nomodule>SystemJS.import('./scripts/main.js')</script>
+    <script type=module src=scripts/main.js></script>
     <link rel=stylesheet href=styles/main.css>
   </head>
   <body>

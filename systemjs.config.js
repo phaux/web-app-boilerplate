@@ -8,5 +8,3 @@ SystemJS.config({
     '@*/*/package.json',
   ],
 })
-
-SystemJS.import('./scripts/main.js')
