@@ -13,5 +13,8 @@
     "stylelint": "^8.4.0",
     "typescript": "^2.6.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "systemjs": "^0.21.3",
+    "systemjs-plugin-babel": "0.0.25"
+  }
 }

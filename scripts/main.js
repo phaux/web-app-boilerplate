@@ -1,6 +1,3 @@
-/// <reference path="./types.d.ts" />
+import {hello} from './mod.js'
 
-/** @type {Foo} */
-const test = 'Hello world!'
-
-console.log(test)
+hello()
