@@ -6,7 +6,6 @@
     "noEmit": true,
     "strict": true
   },
-  "include": [
-    "scripts/**/*"
-  ]
+  "include": ["scripts"],
+  "exclude": ["node_modules"]
 }
