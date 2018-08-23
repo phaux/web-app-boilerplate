@@ -4,6 +4,7 @@
     "checkJs": true,
     "lib": ["dom", "esnext"],
     "noEmit": true,
+    "moduleResolution": "node",
     "strict": true
   },
   "include": ["scripts"],
