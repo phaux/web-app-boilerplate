@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "checkJs": true,
+    "experimentalDecorators": true,
+    "jsx": "react",
+    "jsxFactory": "h",
     "lib": ["dom", "esnext"],
-    "noEmit": true,
     "moduleResolution": "node",
+    "module": "esnext",
+    "outDir": "scripts",
     "strict": true,
     "target": "es2018"
   },
-  "include": ["scripts"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }

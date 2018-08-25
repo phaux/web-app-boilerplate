@@ -3,16 +3,18 @@
   "version": "0.0.0",
   "license": "ISC",
   "scripts": {
-    "start": "es-serve --index-fallback --rewrite-imports -m react=preact-compat -m react-dom=preact-compat",
-    "test": "htmlhint && stylelint \"styles/**/*.css\" && eslint scripts && tsc -p ."
+    "prepare": "tsc -p .",
+    "start": "es-serve --index-fallback --rewrite-imports -m react=preact-compat -m react-dom=preact-compat -w",
+    "test": "htmlhint && stylelint \"styles/**/*.css\" && tslint -p .",
+    "watch": "tsc -p . -w"
   },
   "devDependencies": {
     "@types/react": "^16.4.9",
     "@types/react-dom": "^16.0.7",
     "es-serve": "^0.7.0",
-    "eslint": "^5.3.0",
     "htmlhint": "^0.9.13",
     "stylelint": "^9.4.0",
+    "tslint": "^5.11.0",
     "typescript": "^3.0.1"
   },
   "dependencies": {
