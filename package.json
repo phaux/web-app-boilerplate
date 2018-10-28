@@ -3,29 +3,24 @@
   "version": "0.0.0",
   "license": "ISC",
   "scripts": {
-    "prepare": "tsc -p .",
-    "start": "es-serve --index-fallback --rewrite-imports -m react=preact-compat -m react-dom=preact-compat -w",
-    "test": "htmlhint && stylelint \"styles/**/*.css\" && tslint -p .",
-    "watch": "tsc -p . -w"
+    "build": "babel src -d app -x .ts,.tsx -D",
+    "start": "run-p start:*",
+    "start:server": "es-serve -w app",
+    "start:babel": "babel src -d app -x .ts,.tsx -D -w",
+    "test": "tsc -p . && tslint -p . && stylelint \"src/**/*.css\""
   },
   "devDependencies": {
-    "@types/react": "^16.4.9",
-    "@types/react-dom": "^16.0.7",
-    "es-serve": "^0.7.0",
-    "htmlhint": "^0.9.13",
+    "@babel/cli": "^7.1.2",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.1.0",
+    "es-serve": "^0.9.0",
+    "npm-run-all": "^4.1.3",
     "stylelint": "^9.4.0",
     "tslint": "^5.11.0",
-    "typescript": "^3.0.1"
+    "typescript": "^3.1.3"
   },
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
-    "mobx": "^5.0.3",
-    "mobx-preact": "^3.0.0",
-    "preact": "^8.3.0",
-    "preact-compat": "^3.18.2",
-    "systemjs": "^0.21.4",
-    "systemjs-plugin-babel": "0.0.25",
-    "url-polyfill": "^1.0.13",
-    "whatwg-fetch": "^2.0.4"
+    "preact": "^8.3.1",
+    "preact-compat": "^3.18.4"
   }
 }

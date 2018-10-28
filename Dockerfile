@@ -1,9 +1,13 @@
 FROM node:alpine
-RUN mkdir /app/
-WORKDIR /app/
-RUN npm install es-serve@0.5 --global
-COPY package*.json /app/
-RUN npm install --prod
-COPY . /app/
-CMD ["es-serve", "--index-fallback", "--rewrite-imports"]
+RUN npm install es-serve --global
+WORKDIR /srv
+
+COPY package*.json /srv/
+RUN npm install
+
+COPY . /srv/
+RUN npm run build
+RUN npm install --only=prod
+
+CMD ["es-serve"]
 EXPOSE 8000
