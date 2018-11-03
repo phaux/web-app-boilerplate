@@ -1,6 +1,0 @@
-index_fallback = true
-rewrite_imports = true
-
-[module_map]
-react = "preact-compat"
-react-dom = "preact-compat"

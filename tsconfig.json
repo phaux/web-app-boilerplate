@@ -5,12 +5,13 @@
     "jsxFactory": "h",
     "lib": ["dom", "esnext"],
     "moduleResolution": "node",
-    "module": "esnext",
+    "noEmit": true,
     "noUnusedLocals": true,
-    "outDir": "scripts",
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2018"
+    "target": "esnext"
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }
