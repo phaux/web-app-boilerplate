@@ -2,17 +2,17 @@
 import babel from "rollup-plugin-babel"
 import cpy from "rollup-plugin-cpy"
 import resolve from "rollup-plugin-node-resolve"
-import serve from "rollup-plugin-serve"
 
 const extensions = [".js", ".mjs", ".jsx", ".ts", ".tsx"]
 
-const prod = process.env.NODE_ENV === "production"
+const production = process.env.NODE_ENV === "production"
 
-export default args => ({
+export default {
   input: "src/index.tsx",
   output: {
     dir: "app",
     format: "esm",
+    sourcemap: !production,
   },
   plugins: [
     resolve({
@@ -21,7 +21,6 @@ export default args => ({
       extensions,
     }),
     babel({
-      externalHelpers: true,
       exclude: "node_modules/**",
       extensions,
     }),
@@ -29,12 +28,6 @@ export default args => ({
       files: "src/**/*.css",
       dest: "app",
     }),
-    args.watch && serve({
-      port: +process.env.PORT || 8000,
-      contentBase: "",
-      historyApiFallback: true,
-    }),
   ],
-  external: mod => !prod && args.watch ? /\bnode_modules\b/.exec(mod) : false,
   experimentalCodeSplitting: true,
-})
+}

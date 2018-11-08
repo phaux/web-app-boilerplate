@@ -4,14 +4,17 @@
     "jsx": "react",
     "jsxFactory": "h",
     "lib": ["dom", "esnext"],
+    "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
     "noUnusedLocals": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "esnext"
+    "target": "esnext",
+    "typeRoots": ["types"]
   },
   "include": [
-    "src"
+    "src",
+    "types"
   ]
 }
