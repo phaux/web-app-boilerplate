@@ -4,7 +4,7 @@ setTimeout(() => { spinner.remove() }, 200)
 
 import { observer } from "mobx-preact"
 import { Component, h, render } from "preact"
-import Profile from "./profile"
+import { Profile } from "./profile"
 import { Link, Route, Router } from "./router"
 import { store } from "./store"
 

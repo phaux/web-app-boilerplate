@@ -6,7 +6,7 @@ import { store } from "./store"
 
 export type ProfileProps = RouteChildProps
 @observer
-export default class Profile extends Component<ProfileProps> {
+export class Profile extends Component<ProfileProps> {
   @observable id = ""
   @observable busy = false
   componentDidMount() { this.id = this.props.route }
