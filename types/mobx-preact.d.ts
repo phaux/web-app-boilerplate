@@ -1,4 +1,5 @@
 declare module "mobx-preact" {
   import { ComponentConstructor } from "preact"
-  export function observer<T extends ComponentConstructor>(target: T): T
+  type Component<P = any> = ComponentConstructor<P>
+  export function observer<T extends Component>(target: T): T
 }

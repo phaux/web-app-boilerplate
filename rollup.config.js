@@ -1,6 +1,5 @@
 // tslint:disable:no-implicit-dependencies
 import babel from "rollup-plugin-babel"
-import cpy from "rollup-plugin-cpy"
 import resolve from "rollup-plugin-node-resolve"
 
 const extensions = [".js", ".mjs", ".jsx", ".ts", ".tsx"]
@@ -8,6 +7,7 @@ const extensions = [".js", ".mjs", ".jsx", ".ts", ".tsx"]
 const production = process.env.NODE_ENV === "production"
 
 export default {
+  experimentalCodeSplitting: true,
   input: "src/index.tsx",
   output: {
     dir: "app",
@@ -16,18 +16,13 @@ export default {
   },
   plugins: [
     resolve({
+      extensions,
       main: false,
       modulesOnly: true,
-      extensions,
     }),
     babel({
       exclude: "node_modules/**",
       extensions,
     }),
-    cpy({
-      files: "src/**/*.css",
-      dest: "app",
-    }),
   ],
-  experimentalCodeSplitting: true,
 }
