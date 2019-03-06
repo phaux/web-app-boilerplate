@@ -2,7 +2,7 @@
   position: relative;
   overflow: hidden;
   min-height: 100vh;
-  animation: popup 300ms cubic-bezier(.3, .7, .3, 1) forwards;
+  animation: popup 300ms cubic-bezier(0.3, 0.7, 0.3, 1) forwards;
   background: var(--app-background);
   --menu-width: 260px;
   --menu-item-height: 50px;
@@ -80,7 +80,7 @@
 
 #app > nav li > a:active::after {
   background-size: 100%;
-  opacity: .5;
+  opacity: 0.5;
   transition: none;
 }
 

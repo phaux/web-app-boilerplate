@@ -23,6 +23,7 @@
     "stylelint-config-idiomatic-order": "^6.2.0",
     "stylelint-config-standard": "^18.2.0",
     "tslint": "^5.11.0",
+    "tslint-consistent-codestyle": "^1.15.1",
     "tslint-eslint-rules": "^5.4.0",
     "tslint-language-service": "^0.9.9",
     "tslint-react": "^3.6.0",
@@ -33,7 +34,7 @@
     "mobx-preact": "^3.0.0",
     "mobx-state-tree": "^3.7.1",
     "mobx-utils": "^5.1.0",
-    "preact": "^8.3.1",
+    "preact": "^10.0.0-alpha.0",
     "preact-context": "^1.1.2"
   }
 }

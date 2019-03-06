@@ -9,15 +9,24 @@ export type ProfileProps = RouteChildProps
 export class Profile extends Component<ProfileProps> {
   @observable id = ""
   @observable busy = false
-  componentDidMount() { this.id = this.props.route }
-  componentWillReceiveProps(props: ProfileProps) { this.id = props.route }
+
+  componentDidMount() {
+    this.id = this.props.route
+  }
+
+  componentWillReceiveProps(props: ProfileProps) {
+    this.id = props.route
+  }
+
   render() {
     const user = this.user
     if (user == null) return null
     return (
       <div class="profile">
         <img class="avatar" src={user.picture.large} />
-        <h2>{user.name.first} {user.name.last}</h2>
+        <h2>
+          {user.name.first} {user.name.last}
+        </h2>
         <button
           class={this.busy ? "secondary busy" : "secondary"}
           disabled={this.busy}
@@ -28,9 +37,11 @@ export class Profile extends Component<ProfileProps> {
       </div>
     )
   }
+
   @computed get user() {
     return store.users.find(u => u.id === this.id)
   }
+
   remove = async () => {
     this.busy = true
     await new Promise<void>(cb => setTimeout(cb, 1500))

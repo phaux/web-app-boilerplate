@@ -11,7 +11,7 @@ button {
   font-family: "Montserrat", sans-serif;
   font-size: 14px;
   font-weight: 600;
-  letter-spacing: .08em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   transition: background 300ms, color 200ms;
   white-space: nowrap;
@@ -30,12 +30,12 @@ button::before {
 }
 
 button:hover:not(:disabled)::before {
-  opacity: .3;
+  opacity: 0.3;
   transition: opacity 100ms;
 }
 
 button:active:not(:disabled)::before {
-  opacity: .7;
+  opacity: 0.7;
   transition: none;
 }
 
@@ -76,18 +76,17 @@ button:disabled {
 
 button.busy {
   animation: stripes 500ms linear infinite;
-  background-image:
-    repeating-linear-gradient(
-      45deg,
-      var(--app-shadow) 0%,
-      var(--app-shadow) 25%,
-      transparent 25%,
-      transparent 50%,
-      var(--app-shadow) 50%,
-      var(--app-shadow) 75%,
-      transparent 75%,
-      transparent 100%
-    );
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--app-shadow) 0%,
+    var(--app-shadow) 25%,
+    transparent 25%,
+    transparent 50%,
+    var(--app-shadow) 50%,
+    var(--app-shadow) 75%,
+    transparent 75%,
+    transparent 100%
+  );
   color: var(--app-text);
   /* letter-spacing: -.7em; */
 }

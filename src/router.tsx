@@ -1,5 +1,4 @@
-import { Component, ComponentChild, ComponentFactory, h } from "preact"
-import { createContext } from "preact-context"
+import { Component, ComponentChild, ComponentFactory, createContext, h } from "preact"
 
 export type RouterContext = {
   match: string[];
@@ -9,7 +8,7 @@ export type RouterContext = {
 const defaultContext: RouterContext = { match: [], path: [], navigate() {} }
 const { Consumer, Provider } = createContext<RouterContext>(defaultContext)
 
-export class Router extends Component<{}, {path: string}> {
+export class Router extends Component<{}, { path: string }> {
   state = { path: location.pathname }
   componentDidMount() {
     window.addEventListener("popstate", this.update)
@@ -38,7 +37,7 @@ export class Router extends Component<{}, {path: string}> {
   }
 }
 
-export type RouteChildProps = {route: string}
+export type RouteChildProps = { route: string }
 export type RouteProps = {
   component?: ComponentFactory<RouteChildProps>;
   match: string;
@@ -46,25 +45,33 @@ export type RouteProps = {
 }
 export class Route extends Component<RouteProps> {
   render() {
-    return <Consumer render={this.renderRoute} />
-  }
-  renderRoute = (ctx: RouterContext) => {
-    const { match, render, children, component: Component } = this.props
-    const [dir, ...subpath] = ctx.path
-    if (dir == null) return null
-    if (match !== "*" && dir !== match) return null
     return (
-      <Provider
-        children={
-          Component != null ? <Component key={dir} route={dir} /> :
-            render != null ? render(dir) :
-              children}
-        value={{
-          match: [...ctx.match, dir],
-          navigate: ctx.navigate,
-          path: subpath,
+      <Consumer>
+        {ctx => {
+          const { match, render, children, component: Component } = this.props
+          const [dir, ...subpath] = ctx.path
+          if (dir == null) return null
+          if (match !== "*" && dir !== match) return null
+          return (
+            <Provider
+              children={
+                Component != null ? (
+                  <Component key={dir} route={dir} />
+                ) : render != null ? (
+                  render(dir)
+                ) : (
+                  children
+                )
+              }
+              value={{
+                match: [...ctx.match, dir],
+                navigate: ctx.navigate,
+                path: subpath,
+              }}
+            />
+          )
         }}
-      />
+      </Consumer>
     )
   }
 }
@@ -78,7 +85,10 @@ export class Link extends Component<LinkProps> {
     const classes = className == null ? [] : className.split(/\s+/)
     if (active && href != null) {
       const path = ctx.path.join("/")
-      const target = href.split("/").filter(Boolean).join("/")
+      const target = href
+        .split("/")
+        .filter(Boolean)
+        .join("/")
       if (path.indexOf(target) === 0) {
         if (active === true) classes.push("active")
         else classes.push(active)
@@ -105,16 +115,19 @@ export class Link extends Component<LinkProps> {
     ctx.navigate(href)
   }
   render() {
-    return <Consumer render={this.renderLink} />
+    return (
+      <Consumer>
+        {ctx => (
+          <a
+            {...this.props}
+            class={this.getClassName(ctx)}
+            href={this.getHref(ctx)}
+            onClick={this.handleClick(ctx)}
+          />
+        )}
+      </Consumer>
+    )
   }
-  renderLink = (ctx: RouterContext) => (
-    <a
-      {...this.props}
-      class={this.getClassName(ctx)}
-      href={this.getHref(ctx)}
-      onClick={this.handleClick(ctx)}
-    />
-  )
 }
 
 export { Consumer as RouterConsumer }

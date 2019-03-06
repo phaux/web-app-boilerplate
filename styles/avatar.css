@@ -5,7 +5,7 @@
   height: var(--avatar-size, 32px);
   background-color: var(--avatar-color, var(--app-primary));
   border-radius: 50%;
-  font-size: calc(var(--avatar-size, 32px) * .5);
+  font-size: calc(var(--avatar-size, 32px) * 0.5);
   line-height: var(--avatar-size, 32px);
   object-fit: cover;
   text-align: center;

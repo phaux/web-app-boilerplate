@@ -8,9 +8,9 @@
   --app-background: #2f2b43;
   --app-background-secondary: #353249;
   --app-background-disabled: #555366;
-  --app-highlight: rgba(255, 255, 255, .1);
-  --app-ripple: rgba(255, 255, 255, .5);
-  --app-shadow: rgba(0, 0, 0, .15);
+  --app-highlight: rgba(255, 255, 255, 0.1);
+  --app-ripple: rgba(255, 255, 255, 0.5);
+  --app-shadow: rgba(0, 0, 0, 0.15);
   --app-text: #fff;
   --app-text-secondary: #807e97;
   --app-primary: #ff0087;
@@ -31,20 +31,68 @@ body {
   margin: 0;
   animation: background-light 5s ease-out forwards;
   /* very fancy background */
-  background:
-    radial-gradient(circle 15px at 150px 90vh, rgba(255, 255, 255, .35), rgba(255, 255, 255, .35) 90%, transparent),
-    radial-gradient(circle 9px at 60px 50vh, rgba(255, 255, 255, .55), rgba(255, 255, 255, .55) 90%, transparent),
-    radial-gradient(circle 19px at 40vw 70px, rgba(255, 255, 255, .3), rgba(255, 255, 255, .3) 90%, transparent),
-    radial-gradient(circle 12px at 80vw 80px, rgba(255, 255, 255, .4), rgba(255, 255, 255, .4) 90%, transparent),
-    radial-gradient(circle 7px at 55vw calc(100vh - 95px), rgba(255, 255, 255, .6), rgba(255, 255, 255, .6) 90%, transparent),
-    radial-gradient(circle 14px at 25vw calc(100vh - 35px), rgba(255, 255, 255, .4), rgba(255, 255, 255, .4) 90%, transparent),
-    radial-gradient(circle 11px at calc(100vw - 95px) 55vh, rgba(255, 255, 255, .45), rgba(255, 255, 255, .45) 90%, transparent),
-    radial-gradient(circle 13px at calc(100vw - 35px) 85vh, rgba(255, 255, 255, .4), rgba(255, 255, 255, .4) 90%, transparent),
-    radial-gradient(circle 50vw at 0 -25%, rgba(255, 255, 255, .07), rgba(255, 255, 255, .07) 100%, transparent),
-    radial-gradient(circle 80vw at top left, rgba(255, 255, 255, .07), rgba(255, 255, 255, .07) 100%, transparent),
+  background: radial-gradient(
+      circle 15px at 150px 90vh,
+      rgba(255, 255, 255, 0.35),
+      rgba(255, 255, 255, 0.35) 90%,
+      transparent
+    ),
+    radial-gradient(
+      circle 9px at 60px 50vh,
+      rgba(255, 255, 255, 0.55),
+      rgba(255, 255, 255, 0.55) 90%,
+      transparent
+    ),
+    radial-gradient(
+      circle 19px at 40vw 70px,
+      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0.3) 90%,
+      transparent
+    ),
+    radial-gradient(
+      circle 12px at 80vw 80px,
+      rgba(255, 255, 255, 0.4),
+      rgba(255, 255, 255, 0.4) 90%,
+      transparent
+    ),
+    radial-gradient(
+      circle 7px at 55vw calc(100vh - 95px),
+      rgba(255, 255, 255, 0.6),
+      rgba(255, 255, 255, 0.6) 90%,
+      transparent
+    ),
+    radial-gradient(
+      circle 14px at 25vw calc(100vh - 35px),
+      rgba(255, 255, 255, 0.4),
+      rgba(255, 255, 255, 0.4) 90%,
+      transparent
+    ),
+    radial-gradient(
+      circle 11px at calc(100vw - 95px) 55vh,
+      rgba(255, 255, 255, 0.45),
+      rgba(255, 255, 255, 0.45) 90%,
+      transparent
+    ),
+    radial-gradient(
+      circle 13px at calc(100vw - 35px) 85vh,
+      rgba(255, 255, 255, 0.4),
+      rgba(255, 255, 255, 0.4) 90%,
+      transparent
+    ),
+    radial-gradient(
+      circle 50vw at 0 -25%,
+      rgba(255, 255, 255, 0.07),
+      rgba(255, 255, 255, 0.07) 100%,
+      transparent
+    ),
+    radial-gradient(
+      circle 80vw at top left,
+      rgba(255, 255, 255, 0.07),
+      rgba(255, 255, 255, 0.07) 100%,
+      transparent
+    ),
     radial-gradient(circle at bottom right, #ef2fb8, transparent),
-    radial-gradient(circle at top right, #c45af3, transparent),
-    linear-gradient(#ee66ca, #ff47a6);
+    radial-gradient(circle at top right, #c45af3, transparent), linear-gradient(#ee66ca, #ff47a6);
   color: var(--app-text);
   font-family: "Montserrat", sans-serif;
 }
@@ -62,17 +110,18 @@ body {
 
 .spinner.exit {
   opacity: 0;
-  transform: scale(.5);
+  transform: scale(0.5);
 }
 
-.spinner::before, .spinner::after {
+.spinner::before,
+.spinner::after {
   position: absolute;
   top: 0;
   left: 0;
   width: calc(var(--spinner-size) / 3);
   height: calc(var(--spinner-size) / 3);
   animation: spinner 2s infinite ease-in-out;
-  background-color: rgba(255, 255, 255, .6);
+  background-color: rgba(255, 255, 255, 0.6);
   content: "";
 }
 
@@ -82,23 +131,27 @@ body {
 
 @keyframes spinner {
   25% {
-    transform: translateX(calc(var(--spinner-size) / 3 * 2 - 1px)) rotate(-90deg) scale(.5);
+    transform: translateX(calc(var(--spinner-size) / 3 * 2 - 1px)) rotate(-90deg) scale(0.5);
   }
   50% {
-    transform: translateX(calc(var(--spinner-size) / 3 * 2 - 1px)) translateY(calc(var(--spinner-size) / 3 * 2 - 1px)) rotate(-179deg);
+    transform: translateX(calc(var(--spinner-size) / 3 * 2 - 1px))
+      translateY(calc(var(--spinner-size) / 3 * 2 - 1px)) rotate(-179deg);
   }
   50.1% {
-    transform: translateX(calc(var(--spinner-size) / 3 * 2 - 1px)) translateY(calc(var(--spinner-size) / 3 * 2 - 1px)) rotate(-180deg);
+    transform: translateX(calc(var(--spinner-size) / 3 * 2 - 1px))
+      translateY(calc(var(--spinner-size) / 3 * 2 - 1px)) rotate(-180deg);
   }
   75% {
-    transform: translateX(0) translateY(calc(var(--spinner-size) / 3 * 2 - 1px)) rotate(-270deg) scale(.5);
+    transform: translateX(0) translateY(calc(var(--spinner-size) / 3 * 2 - 1px)) rotate(-270deg)
+      scale(0.5);
   }
   100% {
     transform: rotate(-360deg);
   }
 }
 
-ul, ol {
+ul,
+ol {
   padding-left: 0;
   list-style: none;
 }

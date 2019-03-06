@@ -1,18 +1,19 @@
 import { flow, types } from "mobx-state-tree"
 
-const User = types
-  .model({
-    email: types.string,
-    gender: types.enumeration(["male", "female"]),
-    id: types.identifier,
-    name: types.model({
-      first: types.string,
-      last: types.string,
-    }),
-    picture: types.model({
-      large: types.string,
-    }),
-  })
+const cmp = <T, U>(fn: (x: T) => U) => (a: T, b: T): number => (fn(a) > fn(b) ? 1 : -1)
+
+const User = types.model({
+  email: types.string,
+  gender: types.enumeration(["male", "female"]),
+  id: types.identifier,
+  name: types.model({
+    first: types.string,
+    last: types.string,
+  }),
+  picture: types.model({
+    large: types.string,
+  }),
+})
 
 const Store = types
   .model({
@@ -21,13 +22,9 @@ const Store = types
   })
   .views(self => ({
     getSortedUsers() {
-      if (self.usersOrder === "name") {
-        return self.users.slice().sort((a, b) => a.name.first > b.name.first ? 1 : -1)
-      }
-      else if (self.usersOrder === "id") {
-        return self.users.slice().sort((a, b) => a.id > b.id ? 1 : -1)
-      }
-      else throw Error(`Unknown ordering ${self.usersOrder}`)
+      if (self.usersOrder === "name") return self.users.slice().sort(cmp(x => x.name.first))
+      if (self.usersOrder === "id") return self.users.slice().sort(cmp(x => x.id))
+      throw Error(`Unknown ordering ${self.usersOrder}`)
     },
   }))
   .actions(self => ({
@@ -38,7 +35,7 @@ const Store = types
       self.users.push(...data)
     }),
     loadUsers: flow<unknown, []>(function*() {
-      const data = yield fetch(`https://randomuser.me/api?seed=${12321}&results=20`)
+      const data = yield fetch(`https://randomuser.me/api?seed=${12321}&results=12`)
         .then(res => res.json())
         .then(data => data.results.map((user: any) => ({ ...user, id: user.login.username })))
       self.users.replace(data)
