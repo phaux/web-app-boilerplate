@@ -21,3 +21,14 @@
     transform: none;
   }
 }
+
+@keyframes appear-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(-25px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

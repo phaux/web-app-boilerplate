@@ -1,5 +1,6 @@
 .profile {
   margin: 32px 0;
+  animation: appear-from-left 0.5s forwards;
   text-align: center;
   --avatar-size: 80px;
 }
