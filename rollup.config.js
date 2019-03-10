@@ -1,13 +1,13 @@
 // tslint:disable:no-implicit-dependencies
 import babel from "rollup-plugin-babel"
 import resolve from "rollup-plugin-node-resolve"
+import { terser } from "rollup-plugin-terser"
 
 const extensions = [".js", ".mjs", ".jsx", ".ts", ".tsx"]
 
 const production = process.env.NODE_ENV === "production"
 
 export default {
-  experimentalCodeSplitting: true,
   input: "src/index.tsx",
   output: {
     dir: "app",
@@ -24,5 +24,6 @@ export default {
       exclude: "node_modules/**",
       extensions,
     }),
+    production && terser(),
   ],
 }
