@@ -1,10 +1,5 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "editor.detectIndentation": false,
-  "editor.insertSpaces": true,
-  "editor.tabSize": 2,
-  "files.exclude": {
-    "node_modules": true,
-    "app": true,
-  },
+  "editor.formatOnSave": true,
+  "prettier.tslintIntegration": true,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
