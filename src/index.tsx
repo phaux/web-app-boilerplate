@@ -15,6 +15,18 @@ class App extends Component {
       <Router>
         <div id="app">
           <nav>
+            <div style={{ margin: 16, textAlign: "center" }}>
+              Sort by{" "}
+              <select
+                value={store.usersOrder}
+                onChange={(ev: any) => {
+                  store.setUsersOrder(ev.target.value)
+                }}
+              >
+                <option value="name">Name</option>
+                <option value="id">ID</option>
+              </select>
+            </div>
             <ul>
               {store.getSortedUsers().map((user, i) => (
                 <li
