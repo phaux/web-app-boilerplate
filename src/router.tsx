@@ -1,40 +1,51 @@
-import { Component, ComponentChild, ComponentFactory, createContext, h } from "preact"
+import { ComponentChild, ComponentFactory, createContext, FunctionalComponent, h } from "preact"
+import { useCallback, useContext, useEffect, useMemo, useState } from "preact/hooks"
 
 export type RouterContext = {
   match: string[];
   path: string[];
   navigate(path: string): void;
 }
-const defaultContext: RouterContext = { match: [], path: [], navigate() {} }
-const { Consumer, Provider } = createContext<RouterContext>(defaultContext)
 
-export class Router extends Component<{}, { path: string }> {
-  state = { path: location.pathname }
-  componentDidMount() {
-    window.addEventListener("popstate", this.update)
-  }
-  componentWillUnmount() {
-    window.removeEventListener("popstate", this.update)
-  }
-  navigate = (path: string) => {
-    history.pushState(null, "", path)
-    this.update()
-  }
-  render() {
-    return (
-      <Provider
-        children={this.props.children}
-        value={{
-          match: [],
-          navigate: this.navigate,
-          path: this.state.path.split("/").filter(Boolean),
-        }}
-      />
-    )
-  }
-  update = () => {
-    this.setState({ path: location.pathname })
-  }
+const RouterContext = createContext<RouterContext>({ match: [], path: [], navigate() {} })
+export const useRouter = () => useContext(RouterContext)
+
+const useLocation = (cb: () => void) => {
+  useEffect(() => {
+    window.addEventListener("popstate", cb)
+    return () => {
+      window.removeEventListener("popstate", cb)
+    }
+  }, [cb])
+}
+
+export const Router: FunctionalComponent = props => {
+  const [path, setPath] = useState(location.pathname)
+
+  const update = useCallback(() => {
+    setPath(location.pathname)
+  }, [setPath])
+
+  useLocation(update)
+
+  const navigate = useCallback(
+    (path: string) => {
+      history.pushState(null, "", path)
+      update()
+    },
+    [update],
+  )
+
+  const value = useMemo(
+    () => ({
+      match: [],
+      navigate,
+      path: path.split("/").filter(Boolean),
+    }),
+    [navigate, path],
+  )
+
+  return <RouterContext.Provider children={props.children} value={value} />
 }
 
 export type RouteChildProps = { route: string }
@@ -43,91 +54,79 @@ export type RouteProps = {
   match: string;
   render?(route: string): ComponentChild;
 }
-export class Route extends Component<RouteProps> {
-  render() {
-    return (
-      <Consumer>
-        {ctx => {
-          const { match, render, children, component: Component } = this.props
-          const [dir, ...subpath] = ctx.path
-          if (dir == null) return null
-          if (match !== "*" && dir !== match) return null
-          return (
-            <Provider
-              children={
-                Component != null ? (
-                  <Component key={dir} route={dir} />
-                ) : render != null ? (
-                  render(dir)
-                ) : (
-                  children
-                )
-              }
-              value={{
-                match: [...ctx.match, dir],
-                navigate: ctx.navigate,
-                path: subpath,
-              }}
-            />
-          )
-        }}
-      </Consumer>
-    )
-  }
+export const Route: FunctionalComponent<RouteProps> = props => {
+  const router = useRouter()
+  const [dir, ...subpath] = router.path
+
+  if (dir == null) return null
+  if (props.match !== "*" && dir !== props.match) return null
+
+  const children = useMemo(() => {
+    if (props.component) return <props.component key={dir} route={dir} />
+    if (props.render) return props.render(dir)
+    return props.children
+  }, [props.component, props.render, props.children])
+
+  const value = useMemo(
+    () => ({
+      match: [...router.match, dir],
+      navigate: router.navigate,
+      path: subpath,
+    }),
+    [router.match, dir, subpath.join("/")],
+  )
+
+  return <RouterContext.Provider children={children} value={value} />
+}
+
+const cx = (...args: Array<string | null | undefined>): string[] => {
+  const classes = []
+  for (const arg of args) if (arg) classes.push(...arg.split(/\s+/))
+  return classes.filter(Boolean)
 }
 
 export type LinkProps = JSX.HTMLAttributes & {
   active?: boolean | string;
 }
-export class Link extends Component<LinkProps> {
-  getClassName(ctx: RouterContext) {
-    const { href, active, className } = this.props
-    const classes = className == null ? [] : className.split(/\s+/)
-    if (active && href != null) {
-      const path = ctx.path.join("/")
-      const target = href
+export const Link: FunctionalComponent<LinkProps> = props => {
+  const router = useRouter()
+
+  const classes = useMemo(() => {
+    const classes = cx(props.class, props.className)
+    if (props.active && props.href != null) {
+      const path = router.path.join("/")
+      const target = props.href
         .split("/")
         .filter(Boolean)
         .join("/")
       if (path.indexOf(target) === 0) {
-        if (active === true) classes.push("active")
-        else classes.push(active)
+        if (props.active === true) classes.push("active")
+        else classes.push(props.active)
       }
     }
     return classes.length > 0 ? classes.join(" ") : undefined
-  }
-  getHref(ctx: RouterContext) {
-    const { href } = this.props
-    if (href == null || href[0] === "/") return href
-    const path = href.split("/").filter(Boolean)
-    return "/" + [...ctx.match, ...path].join("/")
-  }
-  handleClick = (ctx: RouterContext) => (e: MouseEvent) => {
-    const { target, onClick } = this.props
-    const href = this.getHref(ctx)
-    if (onClick != null) onClick(e)
-    if (e.defaultPrevented) return
-    if (href == null) return
-    if (e.button !== 0) return
-    if (target != null && target !== "_self") return
-    if (e.metaKey || e.altKey || e.ctrlKey || e.shiftKey) return
-    e.preventDefault()
-    ctx.navigate(href)
-  }
-  render() {
-    return (
-      <Consumer>
-        {ctx => (
-          <a
-            {...this.props}
-            class={this.getClassName(ctx)}
-            href={this.getHref(ctx)}
-            onClick={this.handleClick(ctx)}
-          />
-        )}
-      </Consumer>
-    )
-  }
-}
+  }, [props.class, props.className, props.active, props.href, router.path])
 
-export { Consumer as RouterConsumer }
+  const getHref = useCallback(() => {
+    if (props.href == null || props.href[0] === "/") return props.href
+    const path = props.href.split("/").filter(Boolean)
+    return "/" + [...router.match, ...path].join("/")
+  }, [router.match, props.href])
+
+  const handleClick = useCallback(
+    (ev: MouseEvent) => {
+      const href = getHref()
+      if (props.onClick != null) props.onClick(ev)
+      if (ev.defaultPrevented) return
+      if (href == null) return
+      if (ev.button !== 0) return
+      if (props.target != null && props.target !== "_self") return
+      if (ev.metaKey || ev.altKey || ev.ctrlKey || ev.shiftKey) return
+      ev.preventDefault()
+      router.navigate(href)
+    },
+    [getHref, router.navigate, props.onClick, props.target],
+  )
+
+  return <a {...props} class={classes} href={getHref()} onClick={handleClick} />
+}
