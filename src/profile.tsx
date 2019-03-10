@@ -27,13 +27,21 @@ export class Profile extends Component<ProfileProps> {
         <h2>
           {user.name.first} {user.name.last}
         </h2>
-        <button
-          class={this.busy ? "secondary busy" : "secondary"}
-          disabled={this.busy}
-          onClick={this.remove}
-        >
-          Remove contact
-        </button>
+        <div class="details">
+          <p>
+            {user.gender === "female" ? "👩" : "👨"} {user.id}
+          </p>
+          <p>🖂 {user.email}</p>
+        </div>
+        <p>
+          <button
+            class={this.busy ? "secondary busy" : "secondary"}
+            disabled={this.busy}
+            onClick={this.remove}
+          >
+            Remove contact
+          </button>
+        </p>
       </div>
     )
   }
