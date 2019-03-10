@@ -1,4 +1,4 @@
-import { flow, types } from "mobx-state-tree"
+import { flow, Instance, types } from "mobx-state-tree"
 
 const cmp = <T, U>(fn: (x: T) => U) => (a: T, b: T): number => (fn(a) > fn(b) ? 1 : -1)
 
@@ -49,7 +49,7 @@ const Store = types
     },
   }))
 
-export type StoreType = typeof Store.Type
+export type StoreType = Instance<typeof Store>
 export const store = Store.create({
   usersOrder: "name",
 })
