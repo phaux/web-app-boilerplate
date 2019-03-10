@@ -1,13 +1,13 @@
 import { ComponentChild, ComponentFactory, createContext, FunctionalComponent, h } from "preact"
 import { useCallback, useContext, useEffect, useMemo, useState } from "preact/hooks"
 
-export type RouterContext = {
+export type RouterData = {
   match: string[];
   path: string[];
   navigate(path: string): void;
 }
 
-const RouterContext = createContext<RouterContext>({ match: [], path: [], navigate() {} })
+const RouterContext = createContext<RouterData>({ match: [], path: [], navigate() {} })
 export const useRouter = () => useContext(RouterContext)
 
 const useLocation = (cb: () => void) => {
@@ -36,7 +36,7 @@ export const Router: FunctionalComponent = props => {
     [update],
   )
 
-  const value = useMemo(
+  const router = useMemo<RouterData>(
     () => ({
       match: [],
       navigate,
@@ -45,7 +45,7 @@ export const Router: FunctionalComponent = props => {
     [navigate, path],
   )
 
-  return <RouterContext.Provider children={props.children} value={value} />
+  return <RouterContext.Provider children={props.children} value={router} />
 }
 
 export type RouteChildProps = { route: string }
@@ -65,24 +65,18 @@ export const Route: FunctionalComponent<RouteProps> = props => {
     if (props.component) return <props.component key={dir} route={dir} />
     if (props.render) return props.render(dir)
     return props.children
-  }, [props.component, props.render, props.children])
+  }, [props.component, props.render, props.children, dir])
 
-  const value = useMemo(
+  const innerRouter = useMemo<RouterData>(
     () => ({
+      ...router,
       match: [...router.match, dir],
-      navigate: router.navigate,
       path: subpath,
     }),
     [router.match, dir, subpath.join("/")],
   )
 
-  return <RouterContext.Provider children={children} value={value} />
-}
-
-const cx = (...args: Array<string | null | undefined>): string[] => {
-  const classes = []
-  for (const arg of args) if (arg) classes.push(...arg.split(/\s+/))
-  return classes.filter(Boolean)
+  return <RouterContext.Provider children={children} value={innerRouter} />
 }
 
 export type LinkProps = JSX.HTMLAttributes & {
@@ -91,21 +85,22 @@ export type LinkProps = JSX.HTMLAttributes & {
 export const Link: FunctionalComponent<LinkProps> = props => {
   const router = useRouter()
 
-  const classes = useMemo(() => {
-    const classes = cx(props.class, props.className)
-    if (props.active && props.href != null) {
-      const path = router.path.join("/")
-      const target = props.href
-        .split("/")
-        .filter(Boolean)
-        .join("/")
-      if (path.indexOf(target) === 0) {
-        if (props.active === true) classes.push("active")
-        else classes.push(props.active)
-      }
-    }
-    return classes.length > 0 ? classes.join(" ") : undefined
-  }, [props.class, props.className, props.active, props.href, router.path])
+  const classProps = [props.class, props.className]
+  const originalClasses = useMemo(() => {
+    const classes = []
+    for (const prop of classProps) if (prop) classes.push(...prop.split(/\s+/))
+    return classes
+  }, classProps)
+
+  const activeClass = useMemo(() => {
+    if (!props.active || props.href == null) return undefined
+    const href = props.href.split("/").filter(Boolean)
+    const path = props.href[0] === "/" ? [...router.match, ...router.path] : router.path
+    const isMatch = href.every((dir, i) => dir === path[i])
+    if (isMatch) return props.active === true ? "active" : props.active
+  }, [originalClasses, props.active, props.href, router.match, router.path])
+
+  const classes = activeClass == null ? originalClasses : [...originalClasses, activeClass]
 
   const getHref = useCallback(() => {
     if (props.href == null || props.href[0] === "/") return props.href
@@ -128,5 +123,5 @@ export const Link: FunctionalComponent<LinkProps> = props => {
     [getHref, router.navigate, props.onClick, props.target],
   )
 
-  return <a {...props} class={classes} href={getHref()} onClick={handleClick} />
+  return <a {...props} class={classes.join(" ")} href={getHref()} onClick={handleClick} />
 }
