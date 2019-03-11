@@ -1,5 +1,7 @@
 # Web App Boilerplate
 
+Example data from randomuser.me
+
 ![App](./app.gif)
 
 - **preact** for rendering and component-ing
