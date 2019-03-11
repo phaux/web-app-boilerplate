@@ -1,5 +1,7 @@
 # Web App Boilerplate
 
+![App](./app.gif)
+
 - **preact** for rendering and component-ing
 - **mobx** with **mobx-state-tree** for state management
 - **babel** configured to handle typescript and latest ES syntax
