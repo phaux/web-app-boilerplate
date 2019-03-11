@@ -5,7 +5,7 @@
 - **babel** configured to handle typescript and latest ES syntax
 - **typescript** for typechecking (VSCode or `npm test`)
 - **tslint**, **stylelint** and **prettier** for formatting (VSCode or `npm run format`)
-- **pwa-serve** as development server
+- [**pwa-serve**](https://www.npmjs.com/package/pwa-serve) as development server
 - **rollup** as production bundler
 - Includes VSCode config and recommended extensions.
 - Production build outputs javascript modules (`<script type="module">`)
