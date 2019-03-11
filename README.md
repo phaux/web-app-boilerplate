@@ -20,3 +20,8 @@ To build for production run `docker build . -t $IMAGE_NAME` and start it with `d
 
 You can also manually run `npm run build` and then serve repo directory with nginx or apache
 (remember to configure index fallback and optionally forbid `src` and `node_modules`).
+
+## Known issues
+
+- Reordering animation is wrong (because preact alpha)
+- Production build fails (because preact alpha?)
