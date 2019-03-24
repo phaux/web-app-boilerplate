@@ -28,7 +28,6 @@
     "tslint": "^5.13.1",
     "tslint-consistent-codestyle": "^1.15.1",
     "tslint-eslint-rules": "^5.4.0",
-    "tslint-language-service": "^0.9.9",
     "tslint-react": "^3.6.0",
     "typescript": "^3.3.3333"
   },
@@ -37,6 +36,6 @@
     "mobx-preact": "^3.0.0",
     "mobx-state-tree": "^3.11.0",
     "mobx-utils": "^5.2.0",
-    "preact": "^10.0.0-alpha.1"
+    "preact": "^10.0.0-alpha.2"
   }
 }
