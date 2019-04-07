@@ -8,7 +8,8 @@ const extensions = [".js", ".mjs", ".jsx", ".ts", ".tsx"]
 
 const production = process.env.NODE_ENV === "production"
 
-export default {
+/** @type {import("rollup").RollupOptions} */
+const options = {
   input: "src/index.tsx",
   output: {
     dir: "app",
@@ -28,3 +29,5 @@ export default {
     production && terser(),
   ],
 }
+
+export default options
