@@ -1,13 +1,20 @@
-import { ComponentChild, ComponentFactory, createContext, FunctionalComponent, h } from "preact"
+import {
+  ComponentChild,
+  ComponentFactory,
+  createContext,
+  FunctionalComponent,
+  h,
+  JSX,
+} from "preact"
 import { useCallback, useContext, useEffect, useMemo, useState } from "preact/hooks"
 
 export type RouterData = {
-  match: string[];
-  path: string[];
-  navigate(path: string): void;
+  match: string[]
+  path: string[]
+  navigate(path: string): void
 }
 
-const RouterContext = createContext<RouterData>({ match: [], path: [], navigate() {} })
+const RouterContext = createContext<RouterData>({ match: [], navigate() {}, path: [] })
 export const useRouter = () => useContext(RouterContext)
 
 const useLocation = (cb: () => void) => {
@@ -50,9 +57,9 @@ export const Router: FunctionalComponent = props => {
 
 export type RouteChildProps = { route: string }
 export type RouteProps = {
-  component?: ComponentFactory<RouteChildProps>;
-  match: string;
-  render?(route: string): ComponentChild;
+  component?: ComponentFactory<RouteChildProps>
+  match: string
+  render?(route: string): ComponentChild
 }
 export const Route: FunctionalComponent<RouteProps> = props => {
   const router = useRouter()
@@ -80,7 +87,7 @@ export const Route: FunctionalComponent<RouteProps> = props => {
 }
 
 export type LinkProps = JSX.HTMLAttributes & {
-  active?: boolean | string;
+  active?: boolean | string
 }
 export const Link: FunctionalComponent<LinkProps> = props => {
   const router = useRouter()

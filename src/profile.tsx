@@ -8,6 +8,7 @@ export type ProfileProps = RouteChildProps
 @observer
 export class Profile extends Component<ProfileProps> {
   @observable id = ""
+
   @observable busy = false
 
   componentDidMount() {
@@ -19,7 +20,7 @@ export class Profile extends Component<ProfileProps> {
   }
 
   render() {
-    const user = this.user
+    const {user} = this
     if (user == null) return null
     return (
       <div class="profile">
