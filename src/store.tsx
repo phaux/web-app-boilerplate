@@ -1,7 +1,4 @@
 import { flow, Instance, types } from "mobx-state-tree"
-import { createContext, FunctionalComponent, h } from "preact"
-import { useContext, useState } from "preact/hooks/src"
-import { createInjector, InjectorProps } from "./hoc-utils"
 
 const cmp = <T, U>(fn: (x: T) => U) => (a: T, b: T): number => (fn(a) > fn(b) ? 1 : -1)
 
@@ -59,13 +56,13 @@ export const store = Store.create({
   usersOrder: "name",
 })
 
-const StoreContext = createContext(store)
+// const StoreContext = createContext(store)
 
-export const StoreProvider: FunctionalComponent = props => {
-  const [store] = useState(() => Store.create({ usersOrder: "name" }))
-  return <StoreContext.Provider value={store} children={props.children} />
-}
+// export const StoreProvider: FunctionalComponent = props => {
+//   const [store] = useState(() => Store.create({ usersOrder: "name" }))
+//   return <StoreContext.Provider value={store} children={props.children} />
+// }
 
-export const withStore = createInjector("store", StoreContext)
-export type WithStore = InjectorProps<typeof withStore>
-export const useStore = () => useContext(StoreContext)
+// export const withStore = createInjector("store", StoreContext)
+// export type WithStore = InjectorProps<typeof withStore>
+// export const useStore = () => useContext(StoreContext)
