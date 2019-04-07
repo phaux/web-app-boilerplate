@@ -31,7 +31,7 @@ const Store = types
     },
   }))
   .actions(self => ({
-    addUser: flow<unknown, []>(function*() {
+    addUser: flow(function*() {
       const data = yield fetch("https://randomuser.me/api?results=1")
         .then(res => res.json())
         .then(data => data.results.map((user: any) => ({ ...user, id: user.login.username })))
@@ -41,7 +41,7 @@ const Store = types
       const user = self.users.find(u => u.id === id)
       if (user != null) self.users.remove(user)
     },
-    loadUsers: flow<unknown, []>(function*() {
+    loadUsers: flow(function*() {
       const data = yield fetch(`https://randomuser.me/api?seed=${12321}&results=12`)
         .then(res => res.json())
         .then(data => data.results.map((user: any) => ({ ...user, id: user.login.username })))
