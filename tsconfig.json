@@ -13,8 +13,5 @@
     "target": "esnext",
     "typeRoots": ["types"]
   },
-  "include": [
-    "src",
-    "types"
-  ]
+  "include": ["src", "types"]
 }

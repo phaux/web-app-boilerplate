@@ -1,7 +1,8 @@
-// tslint:disable:no-implicit-dependencies
 import babel from "rollup-plugin-babel"
 import resolve from "rollup-plugin-node-resolve"
 import { terser } from "rollup-plugin-terser"
+
+/* eslint-env node */
 
 const extensions = [".js", ".mjs", ".jsx", ".ts", ".tsx"]
 
